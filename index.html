@@ -1,0 +1,971 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cama Montessoriana Solteiro - Linho | Keiko Kids</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      background: #fff;
+      color: #1a1a1a;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Header */
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 24px;
+      border-bottom: 1px solid #eee;
+      position: sticky;
+      top: 0;
+      background: #fff;
+      z-index: 100;
+    }
+
+    .header-logo {
+      font-size: 22px;
+      font-weight: 800;
+      color: #2d6b4f;
+      letter-spacing: -0.02em;
+    }
+
+    .header-nav {
+      display: flex;
+      gap: 24px;
+      font-size: 14px;
+      color: #666;
+    }
+
+    .header-nav a {
+      text-decoration: none;
+      color: #666;
+      transition: color .2s;
+    }
+
+    .header-nav a:hover {
+      color: #2d6b4f;
+    }
+
+    .header-icons {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+    }
+
+    .header-icons svg {
+      width: 22px;
+      height: 22px;
+      color: #333;
+      cursor: pointer;
+    }
+
+    @media(max-width:768px) {
+      .header-nav {
+        display: none;
+      }
+    }
+
+    /* Breadcrumb */
+    .breadcrumb {
+      padding: 12px 24px;
+      font-size: 13px;
+      color: #999;
+      max-width: 1300px;
+      margin: 0 auto;
+    }
+
+    .breadcrumb a {
+      color: #999;
+      text-decoration: none;
+    }
+
+    .breadcrumb a:hover {
+      color: #2d6b4f;
+    }
+
+    .breadcrumb span {
+      margin: 0 6px;
+    }
+
+    /* Product Layout */
+    .product-container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px 60px;
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+
+    .product-info {
+      max-width: 680px;
+    }
+
+    /* Gallery */
+    .gallery {
+      position: relative;
+    }
+
+    .gallery-main {
+      width: 100%;
+      aspect-ratio: 3/2;
+      border-radius: 12px;
+      overflow: hidden;
+      background: #f5f5f5;
+      cursor: zoom-in;
+      position: relative;
+    }
+
+    .gallery-main img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      transition: transform .4s cubic-bezier(.25, .46, .45, .94);
+    }
+
+    .gallery-main:hover img {
+      transform: scale(1.03);
+    }
+
+    .gallery-nav-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, .9);
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, .1);
+      z-index: 5;
+      transition: all .2s;
+    }
+
+    .gallery-nav-btn:hover {
+      background: #fff;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, .15);
+    }
+
+    .gallery-nav-btn.prev {
+      left: 12px;
+    }
+
+    .gallery-nav-btn.next {
+      right: 12px;
+    }
+
+    .gallery-nav-btn svg {
+      width: 20px;
+      height: 20px;
+      color: #333;
+    }
+
+    .gallery-zoom-btn {
+      position: absolute;
+      bottom: 12px;
+      right: 12px;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, .9);
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, .1);
+      z-index: 5;
+    }
+
+    .gallery-zoom-btn svg {
+      width: 18px;
+      height: 18px;
+      color: #333;
+    }
+
+    .gallery-thumbs {
+      display: flex;
+      gap: 8px;
+      margin-top: 12px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+    }
+
+    .gallery-thumbs::-webkit-scrollbar {
+      display: none;
+    }
+
+    .gallery-thumb {
+      width: 88px;
+      height: 60px;
+      border-radius: 8px;
+      overflow: hidden;
+      cursor: pointer;
+      border: 2px solid transparent;
+      flex-shrink: 0;
+      transition: all .2s;
+      opacity: .6;
+      background: #f5f5f5;
+    }
+
+    .gallery-thumb.active {
+      border-color: #2d6b4f;
+      opacity: 1;
+    }
+
+    .gallery-thumb:hover {
+      opacity: 1;
+    }
+
+    .gallery-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Lightbox */
+    .lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, .92);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .lightbox.active {
+      display: flex;
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, .1);
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+    }
+
+    .lightbox-close svg {
+      width: 24px;
+      height: 24px;
+      color: #fff;
+    }
+
+    .lightbox img {
+      max-width: 90vw;
+      max-height: 85vh;
+      object-fit: contain;
+      border-radius: 8px;
+    }
+
+    .lightbox-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, .15);
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .lightbox-nav:hover {
+      background: rgba(255, 255, 255, .25);
+    }
+
+    .lightbox-nav svg {
+      width: 24px;
+      height: 24px;
+      color: #fff;
+    }
+
+    .lightbox-nav.prev {
+      left: 20px;
+    }
+
+    .lightbox-nav.next {
+      right: 20px;
+    }
+
+    .lightbox-counter {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: rgba(255, 255, 255, .7);
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    /* Product Info */
+    .product-info {
+      padding-top: 8px;
+    }
+
+    .product-title {
+      font-size: 26px;
+      font-weight: 700;
+      line-height: 1.3;
+      color: #1a1a1a;
+      margin-bottom: 8px;
+    }
+
+    .product-rating {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 20px;
+    }
+
+    .stars {
+      display: flex;
+      gap: 2px;
+    }
+
+    .stars svg {
+      width: 16px;
+      height: 16px;
+      fill: #f5a623;
+    }
+
+    .rating-text {
+      font-size: 14px;
+      color: #666;
+      font-weight: 500;
+    }
+
+    .rating-count {
+      font-size: 14px;
+      color: #999;
+    }
+
+    /* Options */
+    .option-label {
+      font-size: 14px;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 10px;
+    }
+
+    .option-group {
+      margin-bottom: 20px;
+    }
+
+    .option-btns {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .option-btn {
+      padding: 10px 20px;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      background: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all .2s;
+      color: #333;
+    }
+
+    .option-btn.active {
+      border-color: #2d6b4f;
+      color: #2d6b4f;
+      background: #f0faf5;
+    }
+
+    .option-btn:hover {
+      border-color: #bbb;
+    }
+
+    .save-badge {
+      background: #fef3e2;
+      color: #c47a00;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 6px 12px;
+      border-radius: 6px;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    /* Colors */
+    .color-swatches {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .color-swatch {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      cursor: pointer;
+      border: 3px solid transparent;
+      transition: all .2s;
+      position: relative;
+    }
+
+    .color-swatch.active {
+      border-color: #2d6b4f;
+      box-shadow: 0 0 0 2px #fff, 0 0 0 4px #2d6b4f;
+    }
+
+    .color-swatch:hover {
+      transform: scale(1.1);
+    }
+
+    .c-charcoal {
+      background: #3a3a3a;
+    }
+
+    .c-cream {
+      background: #f5ead6;
+      border: 1px solid #e0d5c0;
+    }
+
+    .c-navy {
+      background: #1a2744;
+    }
+
+    .c-sage {
+      background: #b5c9b8;
+    }
+
+    .c-mustard {
+      background: #d4a843;
+    }
+
+    .c-blush {
+      background: #e8b4a0;
+    }
+
+    .c-lavender {
+      background: #c5b3d1;
+    }
+
+    /* Pricing */
+    .pricing {
+      margin: 24px 0;
+    }
+
+    .price-old {
+      font-size: 15px;
+      color: #999;
+      text-decoration: line-through;
+    }
+
+    .price-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .price-current {
+      font-size: 36px;
+      font-weight: 800;
+      color: #1a1a1a;
+    }
+
+    .price-badge {
+      background: #e8f5e9;
+      color: #2d6b4f;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 6px;
+    }
+
+    .price-installment {
+      font-size: 14px;
+      color: #666;
+      margin-top: 4px;
+    }
+
+    /* Buy Button */
+    .btn-buy {
+      width: 100%;
+      padding: 16px;
+      border: none;
+      border-radius: 10px;
+      background: #2d6b4f;
+      color: #fff;
+      font-size: 17px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all .3s;
+      margin-top: 20px;
+      letter-spacing: .02em;
+    }
+
+    .btn-buy:hover {
+      background: #245a42;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(45, 107, 79, .3);
+    }
+
+    .btn-add-cart {
+      width: 100%;
+      padding: 14px;
+      border: 2px solid #2d6b4f;
+      border-radius: 10px;
+      background: transparent;
+      color: #2d6b4f;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: all .2s;
+    }
+
+    .btn-add-cart:hover {
+      background: #f0faf5;
+    }
+
+    /* Shipping */
+    .shipping-box {
+      border: 1px solid #e0e0e0;
+      border-radius: 10px;
+      padding: 16px;
+      margin-top: 20px;
+    }
+
+    .shipping-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 10px;
+    }
+
+    .shipping-row {
+      display: flex;
+      gap: 8px;
+    }
+
+    .shipping-input {
+      flex: 1;
+      padding: 10px 14px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 14px;
+      outline: none;
+    }
+
+    .shipping-input:focus {
+      border-color: #2d6b4f;
+    }
+
+    .shipping-btn {
+      padding: 10px 20px;
+      background: #333;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    /* Cross-sell */
+    .cross-sell {
+      margin-top: 24px;
+    }
+
+    .cross-sell-label {
+      font-size: 14px;
+      color: #2d6b4f;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    .cross-sell-card {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      padding: 14px;
+      border: 1px solid #e0e0e0;
+      border-radius: 10px;
+      margin-bottom: 10px;
+      position: relative;
+    }
+
+    .cross-sell-card img {
+      width: 56px;
+      height: 56px;
+      border-radius: 8px;
+      object-fit: cover;
+    }
+
+    .cross-sell-info {
+      flex: 1;
+    }
+
+    .cross-sell-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: #333;
+    }
+
+    .cross-sell-price {
+      font-size: 13px;
+      color: #666;
+      margin-top: 2px;
+    }
+
+    .cross-sell-badge {
+      position: absolute;
+      top: -8px;
+      right: 12px;
+      background: #2d6b4f;
+      color: #fff;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 4px;
+      text-transform: uppercase;
+    }
+
+    .cross-sell-add {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: 2px solid #2d6b4f;
+      background: #fff;
+      color: #2d6b4f;
+      font-size: 20px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    @media(max-width:900px) {
+      .product-title {
+        font-size: 22px;
+      }
+
+      .price-current {
+        font-size: 30px;
+      }
+
+      .gallery-main {
+        aspect-ratio: 4/3;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="header-logo">Keiko Kids</div>
+    <nav class="header-nav">
+      <a href="#">Início</a>
+      <a href="#">Camas</a>
+      <a href="#">Acessórios</a>
+      <a href="#">Sobre</a>
+      <a href="#">Contato</a>
+    </nav>
+    <div class="header-icons">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+      </svg>
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+      </svg>
+    </div>
+  </header>
+
+  <!-- Breadcrumb -->
+  <div class="breadcrumb">
+    <a href="#">Início</a><span>›</span>
+    <a href="#">Camas Montessorianas</a><span>›</span>
+    Cama Montessoriana Solteiro - Linho
+  </div>
+
+  <!-- Product -->
+  <div class="product-container">
+    <!-- Gallery -->
+    <div class="gallery">
+      <div class="gallery-main" id="galleryMain" onclick="openLightbox()">
+        <img id="mainImage" src="imgs/00-hero.jpg" alt="Cama Montessoriana Keiko Kids">
+        <button class="gallery-nav-btn prev" onclick="event.stopPropagation(); changeImage(-1)">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+            stroke-width="2.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+          </svg>
+        </button>
+        <button class="gallery-nav-btn next" onclick="event.stopPropagation(); changeImage(1)">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+            stroke-width="2.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+          </svg>
+        </button>
+        <button class="gallery-zoom-btn" onclick="event.stopPropagation(); openLightbox()">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+            stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7" />
+          </svg>
+        </button>
+      </div>
+      <div class="gallery-thumbs" id="galleryThumbs">
+        <div class="gallery-thumb active" onclick="setImage(0)"><img src="imgs/00-hero.jpg" alt="Hero"></div>
+        <div class="gallery-thumb" onclick="setImage(1)"><img src="imgs/02-hero.jpg" alt="Ambientada"></div>
+        <div class="gallery-thumb" onclick="setImage(2)"><img src="imgs/03-estabilidade.png" alt="Estabilidade"></div>
+        <div class="gallery-thumb" onclick="setImage(3)"><img src="imgs/02-studio.png" alt="Foto studio"></div>
+        <div class="gallery-thumb" onclick="setImage(4)"><img src="imgs/05-detalhe-curva.jpg" alt="Detalhe curva"></div>
+        <div class="gallery-thumb" onclick="setImage(5)"><img src="imgs/06-detalhe-canto.jpg" alt="Detalhe canto"></div>
+        <div class="gallery-thumb" onclick="setImage(6)"><img src="imgs/07-etiqueta-keiko.jpg" alt="Etiqueta Keiko"></div>
+        <div class="gallery-thumb" onclick="setImage(7)"><img src="imgs/08-embalagem.png" alt="Embalagem"></div>
+        <div class="gallery-thumb" onclick="setImage(8)"><img src="imgs/09-dimensoes.png" alt="Dimensões"></div>
+        <div class="gallery-thumb" onclick="setImage(9)"><img src="imgs/10-especificacoes.png" alt="Especificações"></div>
+      </div>
+    </div>
+
+    <!-- Info -->
+    <div class="product-info">
+      <h1 class="product-title">Cama Montessoriana Solteiro - Linho | Keiko Kids</h1>
+      <div class="product-rating">
+        <div class="stars">
+          <svg viewBox="0 0 20 20">
+            <path d="M10 1l2.39 4.84 5.34.78-3.87 3.77.91 5.32L10 13.28l-4.77 2.51.91-5.32L2.27 6.7l5.34-.78L10 1z" />
+          </svg>
+          <svg viewBox="0 0 20 20">
+            <path d="M10 1l2.39 4.84 5.34.78-3.87 3.77.91 5.32L10 13.28l-4.77 2.51.91-5.32L2.27 6.7l5.34-.78L10 1z" />
+          </svg>
+          <svg viewBox="0 0 20 20">
+            <path d="M10 1l2.39 4.84 5.34.78-3.87 3.77.91 5.32L10 13.28l-4.77 2.51.91-5.32L2.27 6.7l5.34-.78L10 1z" />
+          </svg>
+          <svg viewBox="0 0 20 20">
+            <path d="M10 1l2.39 4.84 5.34.78-3.87 3.77.91 5.32L10 13.28l-4.77 2.51.91-5.32L2.27 6.7l5.34-.78L10 1z" />
+          </svg>
+          <svg viewBox="0 0 20 20">
+            <path d="M10 1l2.39 4.84 5.34.78-3.87 3.77.91 5.32L10 13.28l-4.77 2.51.91-5.32L2.27 6.7l5.34-.78L10 1z" />
+          </svg>
+        </div>
+        <span class="rating-text">4.85</span>
+        <span class="rating-count">(145)</span>
+      </div>
+
+      <!-- Options -->
+      <div class="option-group">
+        <div class="option-label">Escolha uma opção:</div>
+        <div class="option-btns">
+          <button class="option-btn active" onclick="selectOption(this)">Sem Colchão</button>
+          <button class="option-btn" onclick="selectOption(this)">Com Colchão</button>
+          <span class="save-badge">ECONOMIZE R$400</span>
+        </div>
+      </div>
+
+      <!-- Colors -->
+      <div class="option-group">
+        <div class="option-label">Cores disponíveis:</div>
+        <div class="color-swatches">
+          <div class="color-swatch c-charcoal" onclick="selectColor(this)" title="Carvão"></div>
+          <div class="color-swatch c-cream" onclick="selectColor(this)" title="Creme"></div>
+          <div class="color-swatch c-navy" onclick="selectColor(this)" title="Marinho"></div>
+          <div class="color-swatch c-sage" onclick="selectColor(this)" title="Verde Sálvia"></div>
+          <div class="color-swatch c-mustard" onclick="selectColor(this)" title="Mostarda"></div>
+          <div class="color-swatch c-lavender" onclick="selectColor(this)" title="Lavanda"></div>
+          <div class="color-swatch c-blush active" onclick="selectColor(this)" title="Blush"></div>
+        </div>
+      </div>
+
+      <!-- Pricing -->
+      <div class="pricing">
+        <div class="price-old">R$ 4.482,90</div>
+        <div class="price-row">
+          <span class="price-current">R$ 1.490,00</span>
+          <span class="price-badge">10%OFF no PIX</span>
+        </div>
+        <div class="price-installment">Ou 12x de <strong>R$ 137,96</strong> sem juros</div>
+      </div>
+
+      <!-- Buttons -->
+      <button class="btn-buy" id="btnBuy">Comprar</button>
+      <button class="btn-add-cart">Adicionar ao carrinho</button>
+
+      <!-- Shipping -->
+      <div class="shipping-box">
+        <div class="shipping-title">Consulte frete e prazo de entrega</div>
+        <div class="shipping-row">
+          <input class="shipping-input" type="text" placeholder="00000-000" maxlength="9">
+          <button class="shipping-btn">CALCULAR</button>
+        </div>
+      </div>
+
+      <!-- Cross-sell -->
+      <div class="cross-sell">
+        <div class="cross-sell-label">Essa pode ser uma ótima <a href="#" style="color:#2d6b4f;font-weight:700;">adição
+            ao seu carrinho</a></div>
+        <div class="cross-sell-card">
+          <span class="cross-sell-badge">Recomendado</span>
+          <div style="width:56px;height:56px;border-radius:8px;background:#e8f0e8;"></div>
+          <div class="cross-sell-info">
+            <div class="cross-sell-name">Capa Impermeável para Colchão Solteiro</div>
+            <div class="cross-sell-price">+ R$ 369,00 no Pix</div>
+          </div>
+          <button class="cross-sell-add">+</button>
+        </div>
+        <div class="cross-sell-card">
+          <div style="width:56px;height:56px;border-radius:8px;background:#f0eee8;"></div>
+          <div class="cross-sell-info">
+            <div class="cross-sell-name">Travesseiro Infantil</div>
+            <div class="cross-sell-price">+ R$ 134,91 no Pix</div>
+          </div>
+          <button class="cross-sell-add">+</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox">
+    <button class="lightbox-close" onclick="closeLightbox()">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+    <button class="lightbox-nav prev" onclick="lightboxNav(-1)">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+      </svg>
+    </button>
+    <img id="lightboxImage" src="" alt="Zoom">
+    <button class="lightbox-nav next" onclick="lightboxNav(1)">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+      </svg>
+    </button>
+    <div class="lightbox-counter" id="lightboxCounter"></div>
+  </div>
+
+  <script>
+    const images = [
+      'imgs/00-hero.jpg',
+      'imgs/02-hero.jpg',
+      'imgs/03-estabilidade.png',
+      'imgs/02-studio.png',
+      'imgs/05-detalhe-curva.jpg',
+      'imgs/06-detalhe-canto.jpg',
+      'imgs/07-etiqueta-keiko.jpg',
+      'imgs/08-embalagem.png',
+      'imgs/09-dimensoes.png',
+      'imgs/10-especificacoes.png'
+    ];
+    let currentIndex = 0;
+
+    function setImage(idx) {
+      currentIndex = idx;
+      document.getElementById('mainImage').src = images[idx];
+      document.querySelectorAll('.gallery-thumb').forEach((t, i) => {
+        t.classList.toggle('active', i === idx);
+      });
+    }
+
+    function changeImage(dir) {
+      let next = currentIndex + dir;
+      if (next < 0) next = images.length - 1;
+      if (next >= images.length) next = 0;
+      setImage(next);
+    }
+
+    function openLightbox() {
+      const lb = document.getElementById('lightbox');
+      lb.classList.add('active');
+      document.getElementById('lightboxImage').src = images[currentIndex];
+      updateCounter();
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+      document.getElementById('lightbox').classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    function lightboxNav(dir) {
+      let next = currentIndex + dir;
+      if (next < 0) next = images.length - 1;
+      if (next >= images.length) next = 0;
+      currentIndex = next;
+      document.getElementById('lightboxImage').src = images[currentIndex];
+      updateCounter();
+      document.querySelectorAll('.gallery-thumb').forEach((t, i) => {
+        t.classList.toggle('active', i === currentIndex);
+      });
+      document.getElementById('mainImage').src = images[currentIndex];
+    }
+
+    function updateCounter() {
+      document.getElementById('lightboxCounter').textContent = (currentIndex + 1) + ' / ' + images.length;
+    }
+
+    function selectOption(btn) {
+      document.querySelectorAll('.option-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    }
+
+    function selectColor(swatch) {
+      document.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('active'));
+      swatch.classList.add('active');
+    }
+
+    // Keyboard nav
+    document.addEventListener('keydown', (e) => {
+      if (document.getElementById('lightbox').classList.contains('active')) {
+        if (e.key === 'Escape') closeLightbox();
+        if (e.key === 'ArrowLeft') lightboxNav(-1);
+        if (e.key === 'ArrowRight') lightboxNav(1);
+      }
+    });
+
+    // Touch swipe on main gallery
+    let touchStartX = 0;
+    document.getElementById('galleryMain').addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+    });
+    document.getElementById('galleryMain').addEventListener('touchend', (e) => {
+      const diff = touchStartX - e.changedTouches[0].screenX;
+      if (Math.abs(diff) > 50) {
+        changeImage(diff > 0 ? 1 : -1);
+      }
+    });
+  </script>
+</body>
+
+</html>
